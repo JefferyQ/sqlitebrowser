@@ -50,6 +50,12 @@
             <Merge Id="VCRedist" SourceFile="$(var.VCRedistPath)\$(var.VCRedistFile)" DiskId="1" Language="0" />
             <Directory Id="$(var.ProgramFilesFolder)">
                 <Directory Id="INSTALLDIR" Name="$(var.Name)">
+                    <!-- This plugin is not needed for the 32-bit version which is built with Qt 5.7. -->
+                    <?if $(sys.BUILDARCH)="x64"?>
+                    <Directory Id="bearer" Name="bearer">
+                        <Component><File Source="$(var.QtPath)\plugins\bearer\qgenericbearer.dll" /></Component>
+                    </Directory>
+                    <?endif?>
                     <Directory Id="extensions" Name="extensions">
                         <Component><File Source="$(var.SQLitePath)\math.dll" /></Component>
                     </Directory>
@@ -138,6 +144,10 @@
             <!-- Translations -->
             <ComponentGroupRef Id="TranslationsGroup" />
 
+            <!-- Bearer -->
+            <?if $(sys.BUILDARCH)="x64"?>
+            <ComponentRef Id="qgenericbearer.dll" />
+            <?endif?>
             <!-- Plugins -->
             <ComponentRef Id="qgif.dll" />
             <ComponentRef Id="qicns.dll" />
