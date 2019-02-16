@@ -30,6 +30,8 @@ RemoteDatabase::RemoteDatabase() :
     connect(m_configurationManager, &QNetworkConfigurationManager::updateCompleted, [this]() {
         m_manager->setConfiguration(m_configurationManager->defaultConfiguration());
 
+        QMessageBox::warning(nullptr, "test", "Working!");
+
 #ifdef CHECKNEWVERSION
     // Check for a new version if automatic update check aren't disabled in the settings dialog
     if(Settings::getValue("checkversion", "enabled").toBool())
